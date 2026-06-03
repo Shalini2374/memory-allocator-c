@@ -10,7 +10,6 @@
 int main() {
     void *ptrs[MAX_POINTERS] = {0};
     struct timespec start, end;
-
     srand(time(NULL));
 
     clock_gettime(CLOCK_MONOTONIC, &start);
@@ -20,21 +19,33 @@ int main() {
         int action = rand() % 3;
 
         if (action == 0) {
-            size_t size = rand() % MAX_ALLOC_SIZE;
+            // malloc — minimum size 1 to avoid NULL return on size 0
+            size_t size = (rand() % MAX_ALLOC_SIZE) + 1;
+            if (ptrs[index] != NULL) {
+                my_free(ptrs[index]);
+                ptrs[index] = NULL;
+            }
             ptrs[index] = my_malloc(size);
         }
         else if (action == 1) {
+            // free
             if (ptrs[index] != NULL) {
                 my_free(ptrs[index]);
                 ptrs[index] = NULL;
             }
         }
         else {
-            size_t size = rand() % MAX_ALLOC_SIZE;
-            ptrs[index] = my_realloc(ptrs[index], size);
+            // realloc — minimum size 1 to avoid free-on-zero
+            size_t size = (rand() % MAX_ALLOC_SIZE) + 1;
+            void *new_ptr = my_realloc(ptrs[index], size);
+            if (new_ptr != NULL) {
+                ptrs[index] = new_ptr;
+            }
+            // if realloc failed, ptrs[index] still valid, don't overwrite
         }
     }
 
+    // cleanup — free everything remaining
     for (int i = 0; i < MAX_POINTERS; i++) {
         if (ptrs[i] != NULL) {
             my_free(ptrs[i]);
@@ -43,11 +54,10 @@ int main() {
     }
 
     clock_gettime(CLOCK_MONOTONIC, &end);
-
-    double elapsed = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
+    double elapsed = (end.tv_sec - start.tv_sec) +
+                     (end.tv_nsec - start.tv_nsec) / 1e9;
 
     print_heap_stats();
-
     printf("Stress test completed without leak.\n");
     printf("Time taken: %.4f seconds\n", elapsed);
     printf("Throughput: %.2f ops/sec\n", OPERATIONS / elapsed);

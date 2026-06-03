@@ -10,8 +10,8 @@ main: allocator.c main.c
 stress: allocator.c stress_test.c
 	$(CC) $(CFLAGS) allocator.c stress_test.c -o stress $(LDFLAGS)
 
-multi: allocator.c multi_thread.c
-	$(CC) $(CFLAGS) allocator.c multi_thread.c -o multi $(LDFLAGS)
+multi: allocator.c multi_thread_test.c
+	$(CC) $(CFLAGS) allocator.c multi_thread_test.c -o multi $(LDFLAGS)
 
 clean:
 	rm -f main stress multi my_allocator
