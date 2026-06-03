@@ -113,15 +113,12 @@ make clean && make
 | `./multi` | 4-thread concurrency test with per-thread arenas |
 ## 📂 Project Structure
 .
-├── allocator.c          # Core engine: malloc, free, calloc, realloc,
-│                        # splitting, coalescing, global + arena APIs
-├── allocator.h          # block_t metadata, strategy macros,
-│                        # function declarations
-├── main.c               # 11 PASS/FAIL correctness tests
-├── stress_test.c        # Single-threaded performance benchmark
-├── multi_thread_test.c  # 4-thread concurrency test with per-thread arenas
-└── Makefile
-
+├── allocator.c             # Core engine: malloc, free, calloc, realloc, splitting, coalescing, global + arena APIs
+├── allocator.h             # block_t metadata, strategy macros, function declarations
+├── main.c                  # 11 PASS/FAIL correctness tests
+├── stress_test.c           # Single-threaded performance benchmark
+├── multi_thread_test.c     # 4-thread concurrency test with per-thread arenas
+└── Makefile                # Build all executables: main, stress, multi
 ---
 
 ## 🔮 Future Improvements
@@ -131,4 +128,3 @@ make clean && make
 3. **System malloc comparison** — Benchmark against `glibc malloc` to quantify real-world performance gaps. 
 ---
 
-## 📂 Project Structure
