@@ -112,6 +112,7 @@ make clean && make
 | `./stress` | Single-threaded throughput and fragmentation benchmark |
 | `./multi` | 4-thread concurrency test with per-thread arenas |
 ## 📂 Project Structure
+```
 .
 ├── allocator.c             # Core engine: malloc, free, calloc, realloc, splitting, coalescing, global + arena APIs
 ├── allocator.h             # block_t metadata, strategy macros, function declarations
@@ -119,7 +120,7 @@ make clean && make
 ├── stress_test.c           # Single-threaded performance benchmark
 ├── multi_thread_test.c     # 4-thread concurrency test with per-thread arenas
 └── Makefile                # Build all executables: main, stress, multi
----
+```
 
 ## 🔮 Future Improvements
 
